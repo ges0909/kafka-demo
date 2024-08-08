@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from confluent_kafka import Consumer
 
@@ -15,6 +16,8 @@ config = {
 
 
 def kafka():
+    messages = []
+
     consumer = Consumer(config)
     consumer.subscribe(TOPICS)
 
@@ -22,17 +25,20 @@ def kafka():
 
     while datetime.datetime.now() < end_time:
         msg = consumer.poll(timeout=POLL_TIMEOUT)
-        print(msg)
         if msg is None:
             continue
         if msg.error():
             print(f"Consumer error: {msg.error()}")
             continue
-        print(f'Message received: {msg.value().decode("utf-8")}')
+        messages.append(msg.value().decode("utf-8"))
 
     consumer.close()
 
-    return
+    return {
+        "messages": messages
+    }
 
 
-kafka()
+msgs = kafka()
+
+print(json.dumps(msgs, indent=2))

@@ -25,7 +25,7 @@ config = {
 
 producer = Producer(config)
 
-messages = ["meine message", "hallo", "hallo coders", "tim"]
+messages = ["meine message", "hallo", "hallo coders"]
 
 
 def delivery_report(err, msg):
