@@ -1,8 +1,31 @@
 from confluent_kafka import Producer
 
-producer = Producer({'bootstrap.servers': 'localhost:9092'})
+# Essential security settings to enable client authentication and SSL encryption
+config = {
+    'bootstrap.servers': 'localhost:9092',
 
-messages = ["meine message", "hallo", "hallo coders"]
+    # # config.setProperty("security.protocol", "SSL");
+    # 'security.protocol': 'SSL',
+    #
+    # # config.setProperty("ssl.truststore.location", "..\\Kafka_Certs\\personal.jks");
+    # # config.setProperty("ssl.truststore.type", "JKS");
+    # # config.setProperty("ssl.truststore.password", "123456");
+    # 'ssl.truststore.location': '/etc/security/tls/kafka.client.truststore.jks',
+    # 'ssl.truststore.password': 'test1234',
+    #
+    # # config.setProperty("ssl.keystore.location", "..\\Kafka_Certs\\personal.jks");
+    # # config.setProperty("ssl.keystore.type", "JKS");
+    # # config.setProperty("ssl.keystore.password", "123456");
+    # 'ssl.keystore.location': '/etc/security/tls/kafka.client.keystore.jks',
+    # 'ssl.keystore.password': 'test1234',
+    #
+    # # config.setProperty("ssl.key.password", "123456");
+    # 'ssl.key.password': 'test1234'
+}
+
+producer = Producer(config)
+
+messages = ["meine message", "hallo", "hallo coders", "tim"]
 
 
 def delivery_report(err, msg):
